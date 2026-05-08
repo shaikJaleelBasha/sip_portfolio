@@ -1,37 +1,38 @@
-const db = require('../utility/dbManager.js');
+const db = require('../utility/pgManager.js');
 
-const createFund = (req, res) => {
-    const { fundId, amcId, fundName, fundCode, fundType} = req.body;
-    db.run(`INSERT INTO mutualFunds (fundId, amcId, fundName, fundCode, fundType) VALUES (?, ?, ?, ?, ?)`,
-        [fundId, amcId, fundName, fundCode, fundType], function(err) {
-            if (err) {
-                return res.status(500).json({ message: "Error creating fund" });
-            }
-        });
-    res.status(201).json({ message: "Fund created successfully"});
+const createFund = async(req, res) => {
+    try{
+        const { amc_id, fund_name, fund_code, fund_type} = req.body;
+        const query = `INSERT INTO mutual_funds (amc_id, fund_name, fund_code, fund_type) VALUES ($1, $2, $3, $4) RETURNING fund_id`;
+        const result = await db.query(query, [amc_id, fund_name, fund_code, fund_type]);
+        return res.status(201).json({message : "Fund Created Successfully.. ", fund_id : result.rows[0].fundId});
+    }catch(err){
+        return res.status(500).json({message : "Error Creating Fund.. ", error : err.message});
+    }
 }
 
-const getFunds = (req, res) => {
-    db.all(`SELECT mf.*, a.amcName FROM mutualFunds mf
-         JOIN amcs a ON mf.amcId = a.amcId`,[], (err, rows) => {
-            if (err) {
-                return res.status(500).json({ message: "Error fetching funds" });
-            }
-            return res.json(rows);
-        });
+const getFunds = async(req, res) => {
+    try {
+        const query = `SELECT mf.*, a.amc_name FROM mutual_funds mf
+         JOIN amcs a ON mf.amc_id = a.amc_id`;
+        const result = await db.query(query);
+        return res.status(200).json(result.rows);
+    } catch (error) {
+        return res.status(500).json({message : "Error Fetching funds", error : error.message});
+    }
 }
 
-const updateFund = (req, res) => {
-    const fundId = req.params.fundId;
-    const { navId, navValue, navDate} = req.body;
-    const query = `INSERT INTO fundNavHistory(navId, fundId, navValue, navDate) VALUES (?, ?, ?, ?)`;
-    db.run(query, [navId, fundId, navValue, navDate], function(err) {
-        if (err) {
-            console.log(err);
-            return res.status(500).json({ message: "Error updating fund NAV" });
-        }
-        res.json({ message: "Fund NAV updated successfully" });
-    });
+const updateFund = async(req, res) => {
+    try{
+        const fund_id = req.params.fundId;
+        const { nav_value, nav_date} = req.body;
+        const query = `INSERT INTO fund_nav_history(fund_id, nav_value, nav_date) VALUES ($1, $2, $3) RETURNING nav_id`;
+        const result = await db.query(query, [fund_id, nav_value, nav_date]);
+        return res.status(201).json({message : "Fund Updated Successfully.. ", nav_id : result.rows[0].nav_id,});
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({message : "Error updating the fund", error : err.message});
+    }
 }
 
 

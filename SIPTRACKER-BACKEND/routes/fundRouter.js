@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post("/", authenticateUser, createFund);
 router.get("/", authenticateUser, getFunds);
-router.put("/:fundId", authenticateUser, updateFund);
+router.put("/:fund_id", authenticateUser, updateFund);
 
 module.exports = router;

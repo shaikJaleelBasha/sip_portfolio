@@ -4,8 +4,8 @@ const authenticateUser = require("../middlewares/authMiddleware.js")
 const sipController = require('../controller/sipController.js');
 
 router.post('/', authenticateUser, sipController.createSIP);
-router.get('/:sipId', authenticateUser, sipController.getSipById);
-router.post('/:sipId/process', authenticateUser, sipController.processSips);
-router.get('/:sipId/transactions', authenticateUser, sipController.getSIPTransactions);
+router.get('/:sip_id', authenticateUser, sipController.getSipById);
+router.post('/:sip_id/process', authenticateUser, sipController.processSips);
+router.get('/:sip_id/transactions', authenticateUser, sipController.getSIPTransactions);
 
 module.exports = router;

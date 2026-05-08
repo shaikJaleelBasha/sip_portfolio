@@ -4,8 +4,8 @@ const authRouter = require('./routes/authRouter.js');
 const investorRoutes = require('./routes/InvestorRoutes.js');
 const fundRouter = require('./routes/fundRouter.js');
 const sipRoutes = require('./routes/sipRoutes.js');
-const db = require('./utility/dbManager.js');
-
+//const db = require('./utility/dbManager.js');
+const pgd = require('./utility/pgManager.js');
 
 app.use(express.json());
 const router = express.Router();
