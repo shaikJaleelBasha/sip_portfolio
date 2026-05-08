@@ -1,0 +1,438 @@
+{
+  "info": {
+    "_postman_id": "a2c888ed-df82-41b1-9230-04c86d04de71",
+    "name": "SIP_TRACKER_SQLITE3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54623577",
+    "_collection_link": "https://go.postman.co/collection/54623577-a2c888ed-df82-41b1-9230-04c86d04de71?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Authorization",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\" : \"gnanicsit@gmail.com\",\r\n    \"password\" : \"gnani852\",\r\n    \"firstName\" : \"Gnaneswar\",\r\n    \"lastName\" : \"Korimalla\",\r\n    \"phone\" : \"9876543210\",\r\n    \"dob\" : \"2005-04-14\",\r\n    \"panNumber\" : \"PLMOK6334H\",\r\n    \"adhaarNumber\" : \"753299518462\",\r\n    \"address\" : \"Venkatapuram\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\" : \"gnanicsit@gmail.com\",\r\n    \"password\" : \"gnani852\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Investors",
+      "item": [
+        {
+          "name": "DisplayInvestors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/investors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "investors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "InvestorById",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/investors/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "investors",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "InvestorHoldings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/investors/2/holdings",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "investors",
+                "2",
+                "holdings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "InvestorNetWorth",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/api/investors/2/networth",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "investors",
+                "2",
+                "networth"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SIP",
+      "item": [
+        {
+          "name": "CreateSip",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sipId\" : 6,\r\n    \"investorId\" : 3,\r\n    \"portfolioId\" : 3,\r\n    \"fundId\" : 3,\r\n    \"sipAmount\" : 8000,\r\n    \"sipDate\" : 10,\r\n    \"startDate\" : \"2026-05-08\",\r\n    \"endDate\" : \"2028-05-07\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sips/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sips",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GetSipById",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"sipId\" : 6,\r\n    \"investorId\" : 3,\r\n    \"portfolioId\" : 3,\r\n    \"fundId\" : 3,\r\n    \"sipAmount\" : 8000,\r\n    \"sipDate\" : 10,\r\n    \"startDate\" : \"2026-05-08\",\r\n    \"endDate\" : \"2028-05-07\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sips/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sips",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SipProcess",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sips/3/process",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sips",
+                "3",
+                "process"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "SipTransactions",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/sips/3/transactions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "sips",
+                "3",
+                "transactions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Fund",
+      "item": [
+        {
+          "name": "GetFunds",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/funds/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "funds",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PostFunds",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/funds/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "funds",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateFunds",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbnZlc3RvcklkIjo3LCJlbWFpbCI6ImduYW5pY3NpdEBnbWFpbC5jb20iLCJpYXQiOjE3NzgyNDA0NDIsImV4cCI6MTc3ODMyNjg0Mn0.-spqrltvcpQRvbZMdTT5jR0fIBQakb5-T3dsKT06VlM",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"navId\" : 11,\r\n    \"navValue\": 82075,\r\n    \"navDate\": \"2026-05-08\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/funds/11",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "funds",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
