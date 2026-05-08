@@ -8,7 +8,7 @@ const JWT_SECRET = 'SPITRACKER_AND_PORTFOLIOVALUATION_AS_SECRET_KEY';
 
 const register = async (req, res) => {
     try {
-        const {email, password, firstName, lastName, phone, panNumber, address} = req.body;
+        const {email, password, firstName, lastName, phone, dob, panNumber, adhaarNumber, address} = req.body;
         db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, row) => {
             if (err) {
                 return res.status(500).json({message: err.message});
@@ -33,8 +33,8 @@ const register = async (req, res) => {
                                     return res.status(500).json({message: err.message});
                                 }
                                 const investorId = investorResult.lastInvestorId ? investorResult.lastInvestorId + 1 : 1;
-                                db.run(`INSERT INTO investors(investorId, userId, firstName, lastName, phone, panNumber, address)
-                                    VALUES(?, ?, ?, ?, ?, ?, ?)`, [investorId, userId, firstName, lastName, phone, panNumber, address],
+                                db.run(`INSERT INTO investors(investorId, userId, firstName, lastName, phone, dob, panNumber, adhaarNumber, address)
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [investorId, userId, firstName, lastName, phone, dob, panNumber, adhaarNumber, address],
                                 function(err){
                                     if(err){
                                         return res.status(500).json({message: err.message});
