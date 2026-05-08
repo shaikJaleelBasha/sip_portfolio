@@ -1,0 +1,167 @@
+﻿# SIP_TRACKER_AND_PORTFOLIO_VALUATION
+# SIP Tracker & Portfolio Valuation System
+
+A fintech backend application built using Node.js, Express.js, and SQLite for managing SIPs (Systematic Investment Plans), portfolio valuation, mutual funds, and investment transaction tracking.
+
+---
+
+# Features
+
+- Investor Management
+- JWT Authentication & Authorization
+- Mutual Fund Management
+- AMC Management
+- SIP Registration
+- SIP Installment Processing
+- Investment Transaction Tracking
+- Portfolio Holdings Calculation
+- Net Worth Calculation
+- NAV History Tracking
+- SQLite Transaction Handling
+- Protected APIs
+
+---
+
+# Tech Stack
+
+- Node.js
+- Express.js
+- SQLite
+- JWT
+- bcrypt
+- REST APIs
+
+---
+
+# Database Design
+
+Normalized relational schema (3NF) with:
+
+- investors
+- investor_auth
+- portfolios
+- amcs
+- mutual_funds
+- nav_history
+- sips
+- investment_transactions
+
+---
+
+# Authentication Flow
+
+- User Registration
+- Password Hashing using bcrypt
+- JWT Token Generation
+- Protected APIs using Middleware
+
+---
+
+# API Endpoints
+
+## Auth APIs
+
+| Method | Endpoint |
+|---|---|
+| POST | /api/auth/register |
+| POST | /api/auth/login |
+
+---
+
+## Investor APIs
+
+| Method | Endpoint |
+|---|---|
+| GET | /api/investors/:investorId |
+| GET | /api/investors/:investorId/holdings |
+| GET | /api/investors/:investorId/networth |
+
+---
+
+## Fund APIs
+
+| Method | Endpoint |
+|---|---|
+| POST | /api/funds |
+| GET | /api/funds |
+| PUT | /api/funds/:fundId/nav |
+
+---
+
+## SIP APIs
+
+| Method | Endpoint |
+|---|---|
+| POST | /api/sips |
+| GET | /api/sips/:sipId |
+| POST | /api/sips/:sipId/process |
+| GET | /api/sips/:sipId/transactions |
+
+---
+
+# Transaction Handling
+
+Implemented transaction-safe operations using:
+
+```sql
+BEGIN TRANSACTION
+COMMIT
+ROLLBACK
+```
+
+Used in:
+
+- User Registration
+- SIP Processing
+- NAV Updates
+
+---
+
+# Setup Instructions
+
+## Clone Repository
+
+```bash
+git clone https://github.com/Hemanth025/SIP_TRACKER_AND_PORTFOLIO_VALUATION.git
+```
+
+---
+
+## Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+## Create .env File
+
+```env
+PORT=3000
+JWT_SECRET=your_secret_key
+```
+
+---
+
+## Start Server
+
+```bash
+npx nodemon server.js
+```
+---
+
+# Security Features
+
+- JWT Authentication
+- Password Hashing using bcrypt
+- Protected Routes
+- Investor Ownership Validation
+
+---
+
+# Author
+
+KRISHNA HEMANTH KANDADA
+
+SHAIK JALEEL BASHA
