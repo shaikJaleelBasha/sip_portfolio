@@ -1,22 +1,24 @@
 const redis = require("redis");
 
-const client = redis.createClient({
+const redisClient = redis.createClient({
     url: "redis://localhost:6379"
 });
 
-client.on("error", (error) => {
+redisClient.on("connect", () => {
+    console.log("Redis Connected Successfully... ");
+});
+
+redisClient.on("error", (error) => {
     console.error(`Redis error: ${error}`);
 });
 
-async function main(){
-    await client.connect();
-    await client.set("name","Rama",{EX : 10});
-    console.log(`Data available: ${await client.get("name")}`);
+const connectRedis = async () => {
+    if(!redisClient.isOpen){
+        await redisClient.connect();
+    }
+};
+
+module.exports = {
+    redisClient,
+    connectRedis
 }
-
-main()
-setInterval(async () => {
-    console.log(await client.get("name"));
-},3000);
-
-module.exports = client;

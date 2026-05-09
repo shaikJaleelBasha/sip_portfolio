@@ -1,10 +1,13 @@
 const db = require('../utility/pgManager.js');
+const redisClient = require("../utility/redis.js");
 
 const createSIP = async (req, res) => {
     try {
         const {investor_id, portfolio_id, fund_id, sip_amount, sip_date, start_date, end_date, sip_status} = req.body;
         const query = `INSERT INTO sips (investor_id, portfolio_id, fund_id, sip_amount, sip_date, start_date, end_date, sip_status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING sip_id`;
         const result = await db.query(query, [investor_id, portfolio_id, fund_id, sip_amount, sip_date, start_date, end_date, sip_status]);
+
+        await redisClient.del(`sip_${result.rows[0].sip_id}`);
         return res.status(201).json({message : "SIP Created Successfully.. ", sip_id : result.rows[0].sip_id});
     } 
     catch (error) {
@@ -16,11 +19,23 @@ const createSIP = async (req, res) => {
 const getSipById = async (req, res) => {
     try{
         const sip_id = req.params.sip_id;
+        const cachedSip = redisClient.get(`sip_${sip_id}`);
+        if(cachedSip){
+            console.log("SIP fetched from Redis cache..");
+            return res.status(200).json(JSON.parse(cachedSip));
+        }
+
         const query = `SELECT * FROM sips WHERE sip_id = $1`;
         const result = await db.query(query, [sip_id]);
         if(result.rows.length === 0){
             return res.status(400).json({message : "SIP Not Found.. "});
         }
+
+        await redisClient.set(
+            `sip_${sip_id}`, JSON.stringify(result.rows[0]), {EX: 3600}
+        );
+
+        console.log("SIP stored in Redis cache...");
         return res.status(200).json(result.rows[0]);
     }catch (err){
         return res.status(500).json({message : "Error fetching SIP Details.. ", error : err.message});
@@ -80,6 +95,9 @@ const processSips = async (req, res) => {
             await client.query(insertHoldingQuery, [sip.investor_id, sip.portfolio_id, sip.fund_id, units, nav.nav_value]);
         }
         await client.query("COMMIT");
+        await redisClient.del(`holdings_${investor_id}`);
+        await redisClient.del(`networth_${investor_id}`);
+        await redisClient.del(`sip_${sip_id}`)
         return res.status(200).json({message : "SIP Processed Successfully.. ", installment_id});
     }catch(err){
         await client.query("ROLLBACK");
@@ -93,6 +111,12 @@ const processSips = async (req, res) => {
 const getSIPTransactions = async(req, res) => {
     try {
         const sip_id = req.params.sip_id;
+        const cachedTransactions = await redisClient.get(`transaction_${sip_id}`);
+        if(cachedTransactions){
+            console.log("Transactions fetched from redis.");
+            return res.status(200).json(JSON.parse(cachedTransactions));
+        }
+
         const query = `SELECT
             it.transaction_id,
             mf.fund_name,
@@ -113,6 +137,12 @@ const getSIPTransactions = async(req, res) => {
             WHERE s.sip_id = $1`;
         
         const result = await db.query(query, [sip_id]);
+        await redisClient.set(
+            `transactions_${sip_id}`,
+            JSON.stringify(result.rows), {EX : 3600}
+        );
+        console.log("Transactions stored in Redis.. ");
+        
         return res.status(200).json(result.rows);
     } catch (error) {
         return res.status(500).json({
