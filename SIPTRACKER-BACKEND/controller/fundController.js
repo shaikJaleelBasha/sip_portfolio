@@ -1,75 +1,112 @@
-const pool = require('../poolManager.js');
+const pool = require("../poolManager.js");
 
-// -----------------------------
+
+// =============================================
 // CREATE FUND
-// -----------------------------
+// =============================================
 const createFund = async (req, res) => {
+
     try {
+
+        console.log(req.body);
+
         const {
-            fundId,
             amcId,
             fundName,
             fundCode,
             fundType
         } = req.body;
 
-        let query, values;
-        
-        // If fundId is provided, we insert it, otherwise we let the DB auto-generate
-        if (fundId) {
-            query = `
-                INSERT INTO mutual_funds 
-                (fund_id, amc_id, fund_name, fund_code, fund_type)
-                VALUES ($1, $2, $3, $4, $5)
-                RETURNING fund_id
-            `;
-            values = [fundId, amcId, fundName, fundCode, fundType];
-        } else {
-            query = `
-                INSERT INTO mutual_funds 
-                (amc_id, fund_name, fund_code, fund_type)
-                VALUES ($1, $2, $3, $4)
-                RETURNING fund_id
-            `;
-            values = [amcId, fundName, fundCode, fundType];
+        // VALIDATION
+        if (
+            !amcId ||
+            !fundName ||
+            !fundCode ||
+            !fundType
+        ) {
+            return res.status(400).json({
+                message: "All fields are required"
+            });
         }
 
-        const result = await pool.query(query, values);
+        const query = `
+            INSERT INTO mutual_funds
+            (
+                amc_id,
+                fund_name,
+                fund_code,
+                fund_type
+            )
+            VALUES ($1, $2, $3, $4)
+            RETURNING *
+        `;
+
+        const values = [
+            amcId,
+            fundName,
+            fundCode,
+            fundType
+        ];
+
+        const result = await pool.query(
+            query,
+            values
+        );
 
         return res.status(201).json({
+            success: true,
             message: "Fund created successfully",
-            fundId: result.rows[0].fund_id
+            data: result.rows[0]
         });
+
     } catch (err) {
+
         console.error(err);
-        return res.status(500).json({ message: "Error creating fund" });
+
+        return res.status(500).json({
+            success: false,
+            message: "Error creating fund"
+        });
     }
 };
 
 
-// -----------------------------
-// GET ALL FUNDS
-// -----------------------------
+// =============================================
+// GET FUNDS
+// =============================================
 const getFunds = async (req, res) => {
+
     try {
+
         const query = `
-            SELECT 
-                mf.*,
+            SELECT
+                mf.fund_id,
+                mf.amc_id,
+                mf.fund_name,
+                mf.fund_code,
+                mf.fund_type,
+
                 a.amc_name,
-                (SELECT nav_value 
-                 FROM fund_nav_history fnh 
-                 WHERE fnh.fund_id = mf.fund_id 
-                 ORDER BY nav_date DESC 
-                 LIMIT 1) as latest_nav
+
+                (
+                    SELECT nav_value
+                    FROM fund_nav_history fnh
+                    WHERE fnh.fund_id = mf.fund_id
+                    ORDER BY nav_date DESC
+                    LIMIT 1
+                ) AS latest_nav
+
             FROM mutual_funds mf
-            JOIN amcs a 
-                ON mf.amc_id = a.amc_id
+
+            JOIN amcs a
+            ON mf.amc_id = a.amc_id
+
+            ORDER BY mf.fund_id DESC
         `;
 
         const result = await pool.query(query);
 
-        // optional mapping for frontend consistency
-        const response = result.rows.map(r => ({
+        const response = result.rows.map((r) => ({
             fundId: r.fund_id,
             amcId: r.amc_id,
             fundName: r.fund_name,
@@ -79,58 +116,81 @@ const getFunds = async (req, res) => {
             latestNav: r.latest_nav || 0
         }));
 
-        return res.json(response);
+        return res.status(200).json(response);
+
     } catch (err) {
+
         console.error(err);
-        return res.status(500).json({ message: "Error fetching funds" });
+
+        return res.status(500).json({
+            message: "Error fetching funds"
+        });
     }
 };
 
 
-// -----------------------------
-// UPDATE FUND NAV (INSERT NAV HISTORY)
-// -----------------------------
+// =============================================
+// UPDATE NAV
+// =============================================
 const updateFund = async (req, res) => {
+
     try {
+
         const { fundId } = req.params;
-        const { navId, navValue, navDate } = req.body;
 
-        let query, values;
+        const {
+            navValue,
+            navDate
+        } = req.body;
 
-        if (navId) {
-            query = `
-                INSERT INTO fund_nav_history 
-                (nav_id, fund_id, nav_value, nav_date)
-                VALUES ($1, $2, $3, $4)
-                RETURNING nav_id
-            `;
-            values = [navId, fundId, navValue, navDate];
-        } else {
-            query = `
-                INSERT INTO fund_nav_history 
-                (fund_id, nav_value, nav_date)
-                VALUES ($1, $2, $3)
-                RETURNING nav_id
-            `;
-            values = [fundId, navValue, navDate];
+        if (!navValue || !navDate) {
+            return res.status(400).json({
+                message: "navValue and navDate required"
+            });
         }
 
-        const result = await pool.query(query, values);
+        const query = `
+            INSERT INTO fund_nav_history
+            (
+                fund_id,
+                nav_value,
+                nav_date
+            )
+            VALUES ($1, $2, $3)
+            RETURNING *
+        `;
 
-        return res.json({
-            message: "Fund NAV updated successfully",
-            navId: result.rows[0].nav_id
+        const values = [
+            fundId,
+            navValue,
+            navDate
+        ];
+
+        const result = await pool.query(
+            query,
+            values
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "NAV updated successfully",
+            data: result.rows[0]
         });
+
     } catch (err) {
+
         console.error(err);
-        return res.status(500).json({ message: "Error updating fund NAV" });
+
+        return res.status(500).json({
+            message: "Error updating NAV"
+        });
     }
 };
 
 
-// -----------------------------
+// =============================================
 // EXPORTS
-// -----------------------------
+// =============================================
 module.exports = {
     createFund,
     getFunds,

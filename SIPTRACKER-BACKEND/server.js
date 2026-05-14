@@ -4,6 +4,8 @@ const authRouter = require('./routes/authRouter.js');
 const fundRouter = require('./routes/fundRouter.js');
 const sipRoutes = require('./routes/sipRoutes.js');
 const investorRoute = require('./routes/InvestorRoutes.js');
+
+const amcRoutes =require("./routes/amcRoutes");
 // const db = require('./utility/dbManager.js');
 // const pgManager = require('./pgManager.js');
 const cors = require("cors");
@@ -17,7 +19,10 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
 const router = express.Router();
+
+app.use( "/api/amcs",amcRoutes);
 
 app.use('/api/auth', authRouter);
 app.use('/api', investorRoute);

@@ -1,1 +1,4 @@
 # sip_protfolio
+c:\Users\shaik\Downloads\Telegram Desktop\RegisterAPI.png c:\Users\shaik\Downloads\Telegram Desktop\CreateSIP.png c:\Users\shaik\Downloads\Telegram Desktop\GetFundsAPI.png c:\Users\shaik\Downloads\Telegram Desktop\GetSIPById.png c:\Users\shaik\Downloads\Telegram Desktop\UpdateFundById.png c:\Users\shaik\Downloads\Telegram Desktop\GetSIPTransactions.png c:\Users\shaik\Downloads\Telegram Desktop\LoginAPI.png c:\Users\shaik\Downloads\Telegram Desktop\GetInvestorAPI.png c:\Users\shaik\Downloads\Telegram Desktop\GetInvestorById.png c:\Users\shaik\Downloads\Telegram Desktop\GetInvestorHoldings.png c:\Users\shaik\Downloads\Telegram Desktop\GetInvestorNetWorth.png c:\Users\shaik\Downloads\Telegram Desktop\PostFunds.png c:\Users\shaik\Downloads\Telegram Desktop\ProcessSIP.png
+
+hi
