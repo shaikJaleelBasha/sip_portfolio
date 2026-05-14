@@ -1,15 +1,15 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const db = require("../utility/pgManager.js");
-const generateToken  = require("../utility/authManager.js");
-const {successResponse, errorResponse} = require("../utility/responseHandler.js")
-const redisClient = require("../utility/redis.js");
+const {generateToken, verifyJWT}  = require("../utility/authManager.js");
+const { successResponse, errorResponse } = require("../utility/responseHandler.js");
+const { redisClient } = require("../utility/redis.js");
 
 const JWT_SECRET = 'SPITRACKER_AND_PORTFOLIOVALUATION_AS_SECRET_KEY';
 
 const register = async (req, res) => {
     try {
-        const {email, password, first_name, last_name, phone, dob, pan_number, adhaar_number, address} = req.body;
+        const {email, password, first_name, last_name, phone, dob, pan_number, aadhaar_number, address} = req.body;
         const checkUserQuery = `SELECT * FROM users WHERE email = $1`;
         const existingUser = await db.query(checkUserQuery, [email]);
 
@@ -21,9 +21,9 @@ const register = async (req, res) => {
         const userResult = await db.query(insertQuery, [email, hashed_password]);
 
         const user_id = userResult.rows[0].user_id;
-        const insertInvestorQuery = `INSERT INTO investors (user_id, first_name, last_name, phone, dob, pan_number, adhaar_number, address)
+        const insertInvestorQuery = `INSERT INTO investors (user_id, first_name, last_name, phone, dob, pan_number, aadhaar_number, address)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING investor_id`;
-        const investorResult = await db.query(insertInvestorQuery, [user_id, first_name, last_name, phone, dob, pan_number, adhaar_number, address]);
+        const investorResult = await db.query(insertInvestorQuery, [user_id, first_name, last_name, phone, dob, pan_number, aadhaar_number, address]);
 
         return successResponse(res, 201, "User Registered Successfully... ", {
             user_id,

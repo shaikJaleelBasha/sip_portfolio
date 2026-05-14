@@ -1,10 +1,56 @@
 const router = require("express").Router();
-const authenticateUser = require("../middlewares/authMiddleware.js")
-const {displayInvestors, getInvestorById, getInvestorHoldings, getInvestorNetWorth} = require("../controller/InvestorController.js");
 
-router.get("/investors", authenticateUser, displayInvestors);
-router.get("/investors/:investor_id", authenticateUser, getInvestorById);
-router.get("/investors/:investor_id/holdings", authenticateUser, getInvestorHoldings);
-router.get("/investors/:investor_id/networth",authenticateUser, getInvestorNetWorth);
+const authenticateUser = require("../middlewares/authMiddleware.js");
+
+const {
+  displayInvestors,
+  getInvestorById,
+  getInvestorHoldings,
+  getInvestorNetWorth,
+  getInvestorTransactions,
+  getRecentPayments
+} = require("../controller/InvestorController.js");
+
+
+// ======================================================
+// INVESTOR ROUTES
+// ======================================================
+
+router.get(
+  "/investors",
+  authenticateUser,
+  displayInvestors
+);
+
+router.get(
+  "/investors/:investor_id",
+  authenticateUser,
+  getInvestorById
+);
+
+router.get(
+  "/investors/:investor_id/holdings",
+  authenticateUser,
+  getInvestorHoldings
+);
+
+router.get(
+  "/investors/:investor_id/networth",
+  authenticateUser,
+  getInvestorNetWorth
+);
+
+router.get(
+  "/investors/:investor_id/transactions",
+  authenticateUser,
+  getInvestorTransactions
+);
+
+router.get(
+  "/investors/:investor_id/recent-payments",
+  authenticateUser,
+  getRecentPayments
+);
+
 
 module.exports = router;
