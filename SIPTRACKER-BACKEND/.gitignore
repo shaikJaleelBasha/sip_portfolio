@@ -1,0 +1,66 @@
+# dependencies
+node_modules/
+
+# logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# runtime files
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# coverage
+coverage/
+*.lcov
+
+# build output
+dist/
+build/
+.next/
+out/
+tmp/
+temp/
+
+# environment variables
+.env
+.env.*
+!.env.example
+
+# editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# package manager files
+.pnpm-store/
+
+# test output
+test-results/
+
+# TypeScript
+*.tsbuildinfo
+
+# local database/files
+*.sqlite
+*.db
+
+# uploads/generated files
+uploads/
+public/uploads/
+
+# misc
+*.tgz
